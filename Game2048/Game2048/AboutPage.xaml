@@ -35,7 +35,7 @@
         </Button>
         <TextBlock TextWrapping="WrapWithOverflow" Grid.Row="1">
             <Run Text="Based on" FontWeight="Bold" />:  <Hyperlink NavigateUri="https://gabrielecirulli.github.io/2048/" RequestNavigate="Hyperlink_RequestNavigate" Foreground="{StaticResource DarkBrownBrush}">Gabriele Cirulli</Hyperlink> game<LineBreak />
-            <Run Text="Created by" FontWeight="Bold" />:  Daniil Bladyko<LineBreak />
+            <Run Text="Created by" FontWeight="Bold" />:  Shardul Pakhale<LineBreak />
             <LineBreak />
             <Run Text="HOW TO PLAY" FontWeight="Bold" />: Use your <Run Text="arrow keys" FontWeight="Bold" /> to move the tiles. When two tiles with the same number touch, they <Run Text="merge into one" FontWeight="Bold" />!
         </TextBlock>
